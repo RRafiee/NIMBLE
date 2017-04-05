@@ -316,7 +316,7 @@ shinyServer(function(input, output) {
         )
         
         incProgress(0.10, detail = paste("Assessing confidence of subgroup calls: stage 4"))
-        linear.calls <-lapply(1:x, function(i) linear.tests[[i]][1:17])
+        linear.calls <-lapply(1:x, function(i) linear.tests[[i]][1:19])
         
         incProgress(0.10, detail = paste("Assessing confidence of subgroup calls: stage 5"))
         prob.test <- (lapply(1:x,
@@ -932,39 +932,44 @@ shinyServer(function(input, output) {
   
   ###################################
   
-  # Output β-values
+ # Output  gene expression values
   
-  Plex <- c("cg00583535"="Plex 1",
-            "cg18788664"="Plex 1",
-            "cg08123444"="Plex 1",
-            "cg17185060"="Plex 2",
-            "cg04541368"="Plex 3",
-            "cg25923609"="Plex 3",
-            "cg06795768"="Plex 3",
-            "cg19336198"="Plex 1",
-            "cg05851505"="Plex 2",
-            "cg20912770"="Plex 3",
-            "cg09190051"="Plex 1",
-            "cg01986767"="Plex 2",
-            "cg01561259"="Plex 2",
-            "cg12373208"="Plex 1",
-            "cg24280645"="Plex 2",
-            "cg00388871"="Plex 1",
-            "cg09923107"="Plex 3")
+ Gene_class <- c("DKK2"="WNT",
+            "EMX2"="WNT",
+            "GAD1"="WNT",
+            "TNC"="WNT",
+            "WIF1"="WNT",
+            "ATOH1"="SHH",
+            "EYA1"="SHH",
+            "HHIP"="SHH",
+            "SFRP1"="SHH",
+            "GABRA5"="Grp3",
+            "IMPG2"="Grp3",
+            "MAB21L2"="Grp3",
+            "NPR3"="Grp3",
+            "NRL"="Grp3",
+            "EOMES"="Grp4",
+            "KCNA1"="Grp4",
+            "KHDRBS2"="Grp4",
+            "RBM24"="Grp4",
+            "UNC5D"="Grp4")
+            
   
+  
+    
   output$Beta <- renderDataTable(options = list(
-    lengthMenu = list(c(10, 17, -1), c('10', '17', 'All')),
-    pageLength = 17
+    lengthMenu = list(c(10, 19, -1), c('10', '19', 'All')),
+    pageLength = 19
   ), {
     classified_data <- classifier()
     if (is.null(classified_data)) return(NULL)
     betas <- round(classified_data$Sample.test, 2)
     betas[is.na(betas)] <- "-"
-    Plex <- Plex[rownames(betas)]
-    betas <- cbind(Plex, betas)
+    Gene_class <- Gene_class[rownames(betas)]
+    betas <- cbind(Gene_class, betas)
     betas <- cbind(rownames(classified_data$Sample.test), betas)
     colnames(betas) <- c("Gene ", colnames(betas)[-1])
-    betas <- betas[order(betas[,"Plex"], betas[,"Gene "]),]
+    betas <- betas[order(betas[,"Gene_class"], betas[,"Gene "]),]
     # Blue Monday
     neworder <- mixedorder(colnames(betas[,c(-1,-2)]))+2
     betas <- betas[,c(1,2,neworder)]
@@ -977,11 +982,11 @@ shinyServer(function(input, output) {
       classified_data <- classifier()
       if (is.null(classified_data)) return(NULL)
       betas <- round(classified_data$Sample.test, 2)
-      Plex <- Plex[rownames(betas)]
-      betas <- cbind(Plex, betas)
+      Gene_class <- Gene_class[rownames(betas)]
+      betas <- cbind(Gene_class, betas)
       betas <- cbind(rownames(classified_data$Sample.test), betas)
       colnames(betas) <- c("Gene ", colnames(betas)[-1])
-      betas <- betas[order(betas[,"Plex"], betas[,"Gene "]),]
+      betas <- betas[order(betas[,"Gene_class"], betas[,"Gene "]),]
       # Blue Monday
       neworder <- mixedorder(colnames(betas[,c(-1,-2)]))+2
       betas <- betas[,c(1,2,neworder)]
