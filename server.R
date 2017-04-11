@@ -137,62 +137,11 @@ shinyServer(function(input, output) {
       Original.No.of.Samples <-ncol(seq.test.BEM.97)
       
       #############################################################
-      # Quality Control1: checking the number of missing probes
+      # Quality Control1: checking Normalisation results  
       # and rejecting those which have not meet the criterion
       #############################################################
       ## MB
       #incProgress(0.10, detail = paste("Checking for missing probes"))
-      
-      # missing_matrix1 <- matrix(ncol=2, nrow=Total.No.of.Samples,0.0)
-      # missing_matrix1[,1] <- colnames(seq.test.BEM.97)
-      # colnames(missing_matrix1) <- c("SampleNames","NumberofMissingOutof17")
-      # 
-      # # this cut-off value obtained by running the classifier on the Goldcohort with different combinations of missing probes
-      # probe_threshold <- 7
-      # 
-      # for (j in 1:Total.No.of.Samples)
-      # {
-      #   missing_counter <- 0
-      #   for (i in 1:nrow(seq.test.BEM.97))
-      #   {
-      #     if (is.na(seq.test.BEM.97[i,j]))
-      #     {
-      #       missing_counter <- missing_counter + 1
-      #     }
-      #   }
-      #   missing_matrix1[j,2] <- missing_counter
-      # }
-      # 
-      # failed.samples <- vector()
-      # index.fs <- 0 # index of failed samples
-      # failed_sample_names <- vector() # These are the sample names that failed, we will return these later
-      # 
-      # for (j in 1:Total.No.of.Samples)
-      # {
-      #   if (as.double(missing_matrix1[j,2]) >= probe_threshold)
-      #   {
-      #     index.fs <- index.fs + 1
-      #     failed.samples[index.fs] <- j
-      #     failed_sample_names <- append(failed_sample_names, missing_matrix1[j])
-      #   }
-      # }
-      # # if empty don't do this bit!
-      # 
-      # if (length(failed.samples) > 0) {
-      #   cat("\nSome samples failed\n")
-      #   
-      #   seq.test.failed <- seq.test.BEM.97[,1:length(failed.samples)]
-      #   seq.test.failed <- seq.test.BEM.97[,c(failed.samples)]  #failed samples
-      #   seq.test.BEM.97 <- seq.test.BEM.97[,-c(failed.samples)] #passed samples
-      #   
-      #   #updating the total number of sample for classifiying
-      #   Total.No.of.Samples <- ncol(seq.test.BEM.97)
-      #   
-      # }
-      # 
-      # # Save missing probes for use later in output
-      # missing_summary <- as.data.frame(apply(Sample.test, 2, function(x) length(which(is.na(x)))))
-      
       ############################################################
       # Should only run if we have more than 1 sample which has less than 7 missing probes 
       if (Total.No.of.Samples > 0 ) {
