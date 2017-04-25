@@ -1,6 +1,6 @@
-## Shiny server for MB MassArray Classification
+## Shiny server for MB nanoString Classification
 ## Machine learning model and classifier code by Dr Reza Rafiee 2014-2017
-## Adaptation and Shiny code: Dr Matthew Bashton
+## Adaptation and Shiny code: Dr Reza Rafiee, Dr Matthew Bashton
 
 
 ## load libraries
